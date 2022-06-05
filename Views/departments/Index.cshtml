@@ -1,0 +1,37 @@
+﻿@model IEnumerable<HRIS_Sample.Models.department>
+
+@{
+    ViewBag.Title = "Departments";
+}
+
+    <h2>Departments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            department name
+        </th>
+        <th>
+            branch office
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.department_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.location.city) @Html.DisplayFor(modelItem => item.location.state_province)
+        </td>
+        <td>
+            <a class="btn btn-default" href="@Url.Action("Index","Employee",new { id=item.department_id, src="dept" })">Employee List &raquo;</a>
+        </td>
+    </tr>
+}
+
+</table>

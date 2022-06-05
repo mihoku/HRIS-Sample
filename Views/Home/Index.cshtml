@@ -1,0 +1,45 @@
+﻿@model IEnumerable<HRIS_Sample.Models.location>
+
+@{
+    ViewBag.Title = "Branch Office";
+}
+
+<h2>
+    @ViewBag.Title
+</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Office
+        </th>
+        <th>
+            Address
+        </th>
+        <th>Country</th>
+        <th>Region</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.city, @item.state_province
+            </td>
+            <td>
+                @item.street_address @item.postal_code
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.country.country_name)
+            </td>
+            <td>
+                @item.country.region.region_name
+            </td>
+            <td>
+                <a class="btn btn-default" href="@Url.Action("Index","Employee",new { id=item.location_id, src="office" })">Employee List &raquo;</a>
+            </td>
+        </tr>
+    }
+
+</table>

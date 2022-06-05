@@ -1,0 +1,43 @@
+﻿@model IEnumerable<HRIS_Sample.Models.employee>
+
+@{
+    ViewBag.Title = ViewBag.description;
+}
+
+    <h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            department name
+        </th>
+        <th>
+            job title
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.first_name) @Html.DisplayFor(modelItem => item.last_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.department.department_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.job.job_title)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=item.employee_id, src=ViewBag.src })
+        </td>
+    </tr>
+}
+
+</table>

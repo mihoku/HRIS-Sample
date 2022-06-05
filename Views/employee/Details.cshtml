@@ -1,0 +1,116 @@
+﻿@model HRIS_Sample.Models.employee
+
+@{
+    ViewBag.Title = Model.first_name+" "+Model.last_name;
+}
+
+    <h2>@ViewBag.Title</h2>
+
+<div>
+   
+    <hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            @Html.DisplayNameFor(model => model.email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.email)
+        </dd>
+
+        <dt>
+            phone number
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone_number)
+        </dd>
+
+        <dt>
+            hire date
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hire_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.salary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.salary)
+        </dd>
+
+        <dt>
+            department name
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.department.department_name)
+        </dd>
+
+        <dt>
+            job title
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.job.job_title)
+        </dd>
+
+        <dt>
+            manager
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.employee1.first_name) @Html.DisplayFor(model => model.employee1.last_name)
+        </dd>
+
+    </dl>
+</div>
+
+    
+    @if (ViewBag.src == "office")
+    {
+        <p>@Html.ActionLink("Back to List", "Index", new { id = Model.department.location_id, src=ViewBag.src })</p>
+    }
+    else if(ViewBag.src == "dept")
+    {
+        <p>@Html.ActionLink("Back to List", "Index", new { id = Model.department_id, src=ViewBag.src })</p>
+    }
+    else
+    {
+        <p>@Html.ActionLink("Back to List", "Index", new { id = Model.job_id, src = ViewBag.src })</p>
+    }
+
+
+
+<hr />
+
+<h2>Dependents</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Relationship
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item2 in Model.dependents)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item2.first_name) @Html.DisplayFor(modelItem => item2.last_name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item2.relationship)
+            </td>
+        </tr>
+    }
+
+</table>

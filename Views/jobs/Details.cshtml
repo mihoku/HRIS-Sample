@@ -1,0 +1,42 @@
+﻿@model HRIS_Sample.Models.job
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>job</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.job_title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.job_title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.min_salary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.min_salary)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.max_salary)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.max_salary)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.job_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

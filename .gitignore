@@ -1,0 +1,8 @@
+obj/
+bin/
+Properties/
+App_Data/
+*.config
+*.csproj
+*.user
+*.asax

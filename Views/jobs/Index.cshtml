@@ -1,0 +1,43 @@
+﻿@model IEnumerable<HRIS_Sample.Models.job>
+
+@{
+    ViewBag.Title = "Job Title";
+}
+
+<h2>Job Title</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.job_title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.min_salary)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.max_salary)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.job_title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.min_salary)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.max_salary)
+        </td>
+        <td>
+            <a class="btn btn-default" href="@Url.Action("Index","Employee",new { id=item.job_id, src="job" })">Employee List &raquo;</a>
+        </td>
+    </tr>
+}
+
+</table>

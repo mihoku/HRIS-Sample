@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HRISModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="countries">
+          <Key>
+            <PropertyRef Name="country_id" />
+          </Key>
+          <Property Name="country_id" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="country_name" Type="varchar" MaxLength="40" />
+          <Property Name="region_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="departments">
+          <Key>
+            <PropertyRef Name="department_id" />
+          </Key>
+          <Property Name="department_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="department_name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="location_id" Type="int" />
+        </EntityType>
+        <EntityType Name="dependents">
+          <Key>
+            <PropertyRef Name="dependent_id" />
+          </Key>
+          <Property Name="dependent_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="last_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="relationship" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="employees">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="varchar" MaxLength="20" />
+          <Property Name="last_name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="phone_number" Type="varchar" MaxLength="20" />
+          <Property Name="hire_date" Type="date" Nullable="false" />
+          <Property Name="job_id" Type="int" Nullable="false" />
+          <Property Name="salary" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="manager_id" Type="int" />
+          <Property Name="department_id" Type="int" />
+        </EntityType>
+        <EntityType Name="jobs">
+          <Key>
+            <PropertyRef Name="job_id" />
+          </Key>
+          <Property Name="job_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="job_title" Type="varchar" MaxLength="35" Nullable="false" />
+          <Property Name="min_salary" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="max_salary" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="locations">
+          <Key>
+            <PropertyRef Name="location_id" />
+          </Key>
+          <Property Name="location_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="street_address" Type="varchar" MaxLength="40" />
+          <Property Name="postal_code" Type="varchar" MaxLength="12" />
+          <Property Name="city" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="state_province" Type="varchar" MaxLength="25" />
+          <Property Name="country_id" Type="char" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="regions">
+          <Key>
+            <PropertyRef Name="region_id" />
+          </Key>
+          <Property Name="region_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="region_name" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <Association Name="FK__countries__regio__286302EC">
+          <End Role="regions" Type="Self.regions" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="countries" Type="Self.countries" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="regions">
+              <PropertyRef Name="region_id" />
+            </Principal>
+            <Dependent Role="countries">
+              <PropertyRef Name="region_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__departmen__locat__35BCFE0A">
+          <End Role="locations" Type="Self.locations" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="departments" Type="Self.departments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="locations">
+              <PropertyRef Name="location_id" />
+            </Principal>
+            <Dependent Role="departments">
+              <PropertyRef Name="location_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dependent__emplo__412EB0B6">
+          <End Role="employees" Type="Self.employees" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="dependents" Type="Self.dependents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="dependents">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employees__depar__3D5E1FD2">
+          <End Role="departments" Type="Self.departments" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="employees" Type="Self.employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="departments">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employees__job_i__3C69FB99">
+          <End Role="jobs" Type="Self.jobs" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="employees" Type="Self.employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="jobs">
+              <PropertyRef Name="job_id" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="job_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employees__manag__3E52440B">
+          <End Role="employees" Type="Self.employees" Multiplicity="0..1" />
+          <End Role="employees1" Type="Self.employees" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="employees1">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__locations__count__2E1BDC42">
+          <End Role="countries" Type="Self.countries" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="locations" Type="Self.locations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="countries">
+              <PropertyRef Name="country_id" />
+            </Principal>
+            <Dependent Role="locations">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRISModelStoreContainer">
+          <EntitySet Name="countries" EntityType="Self.countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="departments" EntityType="Self.departments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="dependents" EntityType="Self.dependents" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="employees" EntityType="Self.employees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="jobs" EntityType="Self.jobs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="locations" EntityType="Self.locations" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="regions" EntityType="Self.regions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__countries__regio__286302EC" Association="Self.FK__countries__regio__286302EC">
+            <End Role="regions" EntitySet="regions" />
+            <End Role="countries" EntitySet="countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__departmen__locat__35BCFE0A" Association="Self.FK__departmen__locat__35BCFE0A">
+            <End Role="locations" EntitySet="locations" />
+            <End Role="departments" EntitySet="departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dependent__emplo__412EB0B6" Association="Self.FK__dependent__emplo__412EB0B6">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="dependents" EntitySet="dependents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employees__depar__3D5E1FD2" Association="Self.FK__employees__depar__3D5E1FD2">
+            <End Role="departments" EntitySet="departments" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employees__job_i__3C69FB99" Association="Self.FK__employees__job_i__3C69FB99">
+            <End Role="jobs" EntitySet="jobs" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employees__manag__3E52440B" Association="Self.FK__employees__manag__3E52440B">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="employees1" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__locations__count__2E1BDC42" Association="Self.FK__locations__count__2E1BDC42">
+            <End Role="countries" EntitySet="countries" />
+            <End Role="locations" EntitySet="locations" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HRISModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="country">
+          <Key>
+            <PropertyRef Name="country_id" />
+          </Key>
+          <Property Name="country_id" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="country_name" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="region_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="region" Relationship="Self.FK__countries__regio__286302EC" FromRole="countries" ToRole="regions" />
+          <NavigationProperty Name="locations" Relationship="Self.FK__locations__count__2E1BDC42" FromRole="countries" ToRole="locations" />
+        </EntityType>
+        <EntityType Name="department">
+          <Key>
+            <PropertyRef Name="department_id" />
+          </Key>
+          <Property Name="department_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="department_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="location_id" Type="Int32" />
+          <NavigationProperty Name="location" Relationship="Self.FK__departmen__locat__35BCFE0A" FromRole="departments" ToRole="locations" />
+          <NavigationProperty Name="employees" Relationship="Self.FK__employees__depar__3D5E1FD2" FromRole="departments" ToRole="employees" />
+        </EntityType>
+        <EntityType Name="dependent">
+          <Key>
+            <PropertyRef Name="dependent_id" />
+          </Key>
+          <Property Name="dependent_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="relationship" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="employee" Relationship="Self.FK__dependent__emplo__412EB0B6" FromRole="dependents" ToRole="employees" />
+        </EntityType>
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="employee_id" />
+          </Key>
+          <Property Name="employee_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="last_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="phone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="hire_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="job_id" Type="Int32" Nullable="false" />
+          <Property Name="salary" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="manager_id" Type="Int32" />
+          <Property Name="department_id" Type="Int32" />
+          <NavigationProperty Name="department" Relationship="Self.FK__employees__depar__3D5E1FD2" FromRole="employees" ToRole="departments" />
+          <NavigationProperty Name="dependents" Relationship="Self.FK__dependent__emplo__412EB0B6" FromRole="employees" ToRole="dependents" />
+          <NavigationProperty Name="job" Relationship="Self.FK__employees__job_i__3C69FB99" FromRole="employees" ToRole="jobs" />
+          <NavigationProperty Name="employees1" Relationship="Self.FK__employees__manag__3E52440B" FromRole="employees" ToRole="employees1" />
+          <NavigationProperty Name="employee1" Relationship="Self.FK__employees__manag__3E52440B" FromRole="employees1" ToRole="employees" />
+        </EntityType>
+        <EntityType Name="job">
+          <Key>
+            <PropertyRef Name="job_id" />
+          </Key>
+          <Property Name="job_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="job_title" Type="String" MaxLength="35" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="min_salary" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="max_salary" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="employees" Relationship="Self.FK__employees__job_i__3C69FB99" FromRole="jobs" ToRole="employees" />
+        </EntityType>
+        <EntityType Name="location">
+          <Key>
+            <PropertyRef Name="location_id" />
+          </Key>
+          <Property Name="location_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="street_address" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="postal_code" Type="String" MaxLength="12" FixedLength="false" Unicode="false" />
+          <Property Name="city" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="state_province" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="country_id" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="country" Relationship="Self.FK__locations__count__2E1BDC42" FromRole="locations" ToRole="countries" />
+          <NavigationProperty Name="departments" Relationship="Self.FK__departmen__locat__35BCFE0A" FromRole="locations" ToRole="departments" />
+        </EntityType>
+        <EntityType Name="region">
+          <Key>
+            <PropertyRef Name="region_id" />
+          </Key>
+          <Property Name="region_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="region_name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="countries" Relationship="Self.FK__countries__regio__286302EC" FromRole="regions" ToRole="countries" />
+        </EntityType>
+        <Association Name="FK__countries__regio__286302EC">
+          <End Role="regions" Type="Self.region" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="countries" Type="Self.country" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="regions">
+              <PropertyRef Name="region_id" />
+            </Principal>
+            <Dependent Role="countries">
+              <PropertyRef Name="region_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__locations__count__2E1BDC42">
+          <End Role="countries" Type="Self.country" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="locations" Type="Self.location" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="countries">
+              <PropertyRef Name="country_id" />
+            </Principal>
+            <Dependent Role="locations">
+              <PropertyRef Name="country_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__departmen__locat__35BCFE0A">
+          <End Role="locations" Type="Self.location" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="departments" Type="Self.department" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="locations">
+              <PropertyRef Name="location_id" />
+            </Principal>
+            <Dependent Role="departments">
+              <PropertyRef Name="location_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employees__depar__3D5E1FD2">
+          <End Role="departments" Type="Self.department" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="employees" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="departments">
+              <PropertyRef Name="department_id" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="department_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__dependent__emplo__412EB0B6">
+          <End Role="employees" Type="Self.employee" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="dependents" Type="Self.dependent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="dependents">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employees__job_i__3C69FB99">
+          <End Role="jobs" Type="Self.job" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="employees" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="jobs">
+              <PropertyRef Name="job_id" />
+            </Principal>
+            <Dependent Role="employees">
+              <PropertyRef Name="job_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__employees__manag__3E52440B">
+          <End Role="employees" Type="Self.employee" Multiplicity="0..1" />
+          <End Role="employees1" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employees">
+              <PropertyRef Name="employee_id" />
+            </Principal>
+            <Dependent Role="employees1">
+              <PropertyRef Name="manager_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HRISEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="countries" EntityType="Self.country" />
+          <EntitySet Name="departments" EntityType="Self.department" />
+          <EntitySet Name="dependents" EntityType="Self.dependent" />
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <EntitySet Name="jobs" EntityType="Self.job" />
+          <EntitySet Name="locations" EntityType="Self.location" />
+          <EntitySet Name="regions" EntityType="Self.region" />
+          <AssociationSet Name="FK__countries__regio__286302EC" Association="Self.FK__countries__regio__286302EC">
+            <End Role="regions" EntitySet="regions" />
+            <End Role="countries" EntitySet="countries" />
+          </AssociationSet>
+          <AssociationSet Name="FK__locations__count__2E1BDC42" Association="Self.FK__locations__count__2E1BDC42">
+            <End Role="countries" EntitySet="countries" />
+            <End Role="locations" EntitySet="locations" />
+          </AssociationSet>
+          <AssociationSet Name="FK__departmen__locat__35BCFE0A" Association="Self.FK__departmen__locat__35BCFE0A">
+            <End Role="locations" EntitySet="locations" />
+            <End Role="departments" EntitySet="departments" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employees__depar__3D5E1FD2" Association="Self.FK__employees__depar__3D5E1FD2">
+            <End Role="departments" EntitySet="departments" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__dependent__emplo__412EB0B6" Association="Self.FK__dependent__emplo__412EB0B6">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="dependents" EntitySet="dependents" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employees__job_i__3C69FB99" Association="Self.FK__employees__job_i__3C69FB99">
+            <End Role="jobs" EntitySet="jobs" />
+            <End Role="employees" EntitySet="employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK__employees__manag__3E52440B" Association="Self.FK__employees__manag__3E52440B">
+            <End Role="employees" EntitySet="employees" />
+            <End Role="employees1" EntitySet="employees" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HRISModelStoreContainer" CdmEntityContainer="HRISEntities">
+          <EntitySetMapping Name="countries">
+            <EntityTypeMapping TypeName="HRISModel.country">
+              <MappingFragment StoreEntitySet="countries">
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+                <ScalarProperty Name="country_name" ColumnName="country_name" />
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="departments">
+            <EntityTypeMapping TypeName="HRISModel.department">
+              <MappingFragment StoreEntitySet="departments">
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+                <ScalarProperty Name="department_name" ColumnName="department_name" />
+                <ScalarProperty Name="location_id" ColumnName="location_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="dependents">
+            <EntityTypeMapping TypeName="HRISModel.dependent">
+              <MappingFragment StoreEntitySet="dependents">
+                <ScalarProperty Name="dependent_id" ColumnName="dependent_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="relationship" ColumnName="relationship" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="HRISModel.employee">
+              <MappingFragment StoreEntitySet="employees">
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="phone_number" ColumnName="phone_number" />
+                <ScalarProperty Name="hire_date" ColumnName="hire_date" />
+                <ScalarProperty Name="job_id" ColumnName="job_id" />
+                <ScalarProperty Name="salary" ColumnName="salary" />
+                <ScalarProperty Name="manager_id" ColumnName="manager_id" />
+                <ScalarProperty Name="department_id" ColumnName="department_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="jobs">
+            <EntityTypeMapping TypeName="HRISModel.job">
+              <MappingFragment StoreEntitySet="jobs">
+                <ScalarProperty Name="job_id" ColumnName="job_id" />
+                <ScalarProperty Name="job_title" ColumnName="job_title" />
+                <ScalarProperty Name="min_salary" ColumnName="min_salary" />
+                <ScalarProperty Name="max_salary" ColumnName="max_salary" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="locations">
+            <EntityTypeMapping TypeName="HRISModel.location">
+              <MappingFragment StoreEntitySet="locations">
+                <ScalarProperty Name="location_id" ColumnName="location_id" />
+                <ScalarProperty Name="street_address" ColumnName="street_address" />
+                <ScalarProperty Name="postal_code" ColumnName="postal_code" />
+                <ScalarProperty Name="city" ColumnName="city" />
+                <ScalarProperty Name="state_province" ColumnName="state_province" />
+                <ScalarProperty Name="country_id" ColumnName="country_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="regions">
+            <EntityTypeMapping TypeName="HRISModel.region">
+              <MappingFragment StoreEntitySet="regions">
+                <ScalarProperty Name="region_id" ColumnName="region_id" />
+                <ScalarProperty Name="region_name" ColumnName="region_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
